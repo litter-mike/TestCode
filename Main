@@ -1,0 +1,86 @@
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+public class Main {
+
+    public static void main(String[] args) {
+        String firArr[][] = {
+                {""},
+                {""},
+                {"A","B","C"},
+                {"D","E","F"},
+                {"G","H","I"},
+                {"J","K","L"},
+                {"M","N","O"},
+                {"P","Q","R","S"},
+                {"T","U","V"},
+                {"W","X","Y","Z"}};
+
+       String intputstr =getinput("请输入0~9数字:");
+        String sp[] = intputstr.split(",");
+        boolean digits =true;
+        for(int i=0 ;i<sp.length; i++){
+            try {
+                Integer.parseInt(sp[i]);
+
+            } catch (NumberFormatException e) {
+                digits = false;
+                break;
+            }
+        }
+        if(!digits){
+            intputstr =getinput("非法输入，请输入0~9数字:");
+        }
+
+        sp = intputstr.split(",");
+        String secondArr[][] =new String[sp.length][];
+        for(int i=0 ;i<sp.length; i++){
+            int index =Integer.parseInt(sp[i]);
+            secondArr[i] =firArr[index];
+        }
+
+
+            String[] temresult  = secondArr[0];
+            for (int tt = 1; tt < secondArr.length ; tt++) {
+                String[] temresul = secondArr[tt];
+                temresult =ffset(temresult ,temresul);
+            }
+            String values ="";
+            for(String v : temresult)
+                values += v+" ";
+            System.out.println(values);
+
+    }
+
+
+
+    private static String getinput(String str) {
+        Scanner input=new Scanner(System.in);
+        String intputstr="";
+        System.out.println(str);
+        try{
+             intputstr=input.nextLine();
+        }catch(InputMismatchException e){
+            input.nextLine();
+            System.out.println(str);
+            intputstr=input.nextLine();
+        }
+        return intputstr;
+    }
+
+    private static String[] ffset(String [] secondArr ,String [] temresult){
+        String str ="";
+        for(int i=0 ;i<secondArr.length ;i++){
+
+            for(int j=0 ;j<temresult.length ;j++){
+                str += secondArr[i]+ temresult[j]+";";
+            }
+        }
+        if(str.equals("")){
+            return new String[secondArr.length * temresult.length];
+        }
+        str = str.substring(0,str.length()-1);
+        return str.split(";");
+    }
+
+}
